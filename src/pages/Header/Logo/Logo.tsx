@@ -3,11 +3,11 @@ import MovieOutlinedIcon from "@mui/icons-material/MovieOutlined";
 
 const Logo = () => {
   return (
-    <section className="py-4 pl-8">
+    <section className="pl-8">
       <Button
         color="secondary"
         startIcon={<MovieOutlinedIcon sx={{ width: 52, height: 52 }} />}
-        className="text-2xl capitalize text-[#BFAB25] px-6"
+        className="text-2xl capitalize text-[#BFAB25] px-6 py-3"
       >
         <div>
           <h1 className="pl-2">Cinema Setara</h1>

@@ -5,13 +5,13 @@ import Filters from "./Filters/Filters";
 
 const Header = () => {
   return (
-    <header className="bg-primary flex items-center">
+    <header className="bg-primary flex items-center flex-wrap">
       <Logo />
-      <Input
+      {/* <Input
         endAdornment={<SearchOutlinedIcon className="pl-4" />}
         className="text-white"
         placeholder="Название фильма:"
-      />
+      /> */}
       <Filters />
     </header>
   );

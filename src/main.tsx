@@ -7,6 +7,7 @@ import {
 } from "@mui/material/styles";
 import Layout from "./pages/Layout";
 import "./index.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 const rootElement = document.getElementById("root")!;
 
@@ -42,7 +43,11 @@ ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
     <ThemeProvider theme={darkTheme}>
       <StyledEngineProvider injectFirst>
-        <Layout />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Layout />}></Route>
+          </Routes>
+        </BrowserRouter>
       </StyledEngineProvider>
     </ThemeProvider>
   </React.StrictMode>

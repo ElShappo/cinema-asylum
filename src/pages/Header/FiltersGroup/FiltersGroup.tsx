@@ -7,6 +7,8 @@ import {
   Slide,
   Toolbar,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
@@ -29,6 +31,8 @@ const Transition = forwardRef(function Transition(
 
 const FiltersGroup = () => {
   const [open, setOpen] = useState(false);
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   const handleFiltersOpen = () => {
     setOpen(true);
@@ -41,7 +45,9 @@ const FiltersGroup = () => {
   return (
     <>
       <Dialog
-        fullScreen
+        fullWidth
+        maxWidth="md"
+        fullScreen={fullScreen}
         open={open}
         onClose={handleFiltersClose}
         TransitionComponent={Transition}

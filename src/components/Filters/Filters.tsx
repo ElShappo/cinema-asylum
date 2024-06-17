@@ -5,8 +5,8 @@ import RatingSlider from "./RatingSlider/RatingSlider";
 
 const Filters = () => {
   return (
-    <div className="text-center">
-      <section className="flex flex-col justify-center items-center gap-8 p-7">
+    <div className="text-center p-7 space-y-4 pb-8">
+      <section className="flex flex-col justify-center items-center gap-8">
         <Genres />
         <DateRange />
         <RatingSlider />

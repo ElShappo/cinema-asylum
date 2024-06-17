@@ -40,15 +40,13 @@ const darkTheme = createTheme({
 });
 
 ReactDOM.createRoot(rootElement).render(
-  <React.StrictMode>
-    <ThemeProvider theme={darkTheme}>
-      <StyledEngineProvider injectFirst>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Layout />}></Route>
-          </Routes>
-        </BrowserRouter>
-      </StyledEngineProvider>
-    </ThemeProvider>
-  </React.StrictMode>
+  <ThemeProvider theme={darkTheme}>
+    <StyledEngineProvider injectFirst>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Layout />}></Route>
+        </Routes>
+      </BrowserRouter>
+    </StyledEngineProvider>
+  </ThemeProvider>
 );

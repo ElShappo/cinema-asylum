@@ -17,8 +17,11 @@
     "@mui/material": "^5.15.20",
     "@mui/x-date-pickers": "^7.7.0",
     "dayjs": "^1.11.11",
+    "mobx": "^6.12.4",
+    "mobx-react-lite": "^4.0.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-notifications-component": "^4.0.1",
     "react-router-dom": "^6.23.1"
   },
   "devDependencies": {

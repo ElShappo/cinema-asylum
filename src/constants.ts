@@ -6,10 +6,10 @@ export const PASSWORD = "42";
 export const debounceTimeout = 1000;
 export const dateFormat = "YYYY-MM-DD";
 
-export const minYear = 1920;
+export const minYear = 1990;
 export const maxYear = new Date().getFullYear();
-export const minDateString = `${minYear}-00-00`;
-export const maxDateString = `${maxYear}-00-00`;
+export const minDateString = `${minYear}-01-01`;
+export const maxDateString = `${maxYear}-01-01`;
 
 export const pageSizeOptions = [10, 20, 50, 100];
 export const maxLimit = 200; // don't allow to get more that 'maxLimit' items at a time

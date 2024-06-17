@@ -1,5 +1,4 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 
 function valuetext(value: number) {
@@ -14,18 +13,18 @@ const RatingSlider = () => {
   };
 
   return (
-    <section className="flex flex-col w-72">
-      <h2 className="text-[15px] text-[#e3e3e3]">Рейтинг фильма</h2>
+    <article className="flex flex-col text-center max-sm:w-full xl:w-1/3 lg:w-2/5 md:w-1/2 sm:w-3/5">
+      <h2 className="text-[15px] text-[#e3e3e3]">Рейтинг фильма (диапазон)</h2>
       <Slider
         min={0}
         max={10}
-        getAriaLabel={() => "Temperature range"}
+        getAriaLabel={() => "Movie rating"}
         value={value}
         onChange={handleChange}
-        valueLabelDisplay="auto"
+        valueLabelDisplay="on"
         getAriaValueText={valuetext}
       />
-    </section>
+    </article>
   );
 };
 

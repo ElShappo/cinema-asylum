@@ -19,6 +19,7 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import CloseIcon from "@mui/icons-material/Close";
 import { TransitionProps } from "@mui/material/transitions";
 import Filters from "../../../components/Filters/Filters";
+import { useNavigate } from "react-router-dom";
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -30,6 +31,7 @@ const Transition = forwardRef(function Transition(
 });
 
 const FiltersGroup = () => {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -79,6 +81,7 @@ const FiltersGroup = () => {
           <div className="py-1">Поиск по названию</div>
         </Button>
         <Button
+          onClick={() => navigate("/favourite_movies")}
           className="text-xl normal-case"
           size="large"
           startIcon={

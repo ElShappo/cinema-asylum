@@ -8,6 +8,8 @@ import {
 import Layout from "./pages/Layout";
 import "./index.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Movies from "./pages/Body/Movies/Movies";
+import FavouriteMovies from "./pages/Body/FavouriteMovies/FavouriteMovies";
 
 const rootElement = document.getElementById("root")!;
 
@@ -44,7 +46,10 @@ ReactDOM.createRoot(rootElement).render(
     <StyledEngineProvider injectFirst>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Layout />}></Route>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Movies />} />
+            <Route path="favourite_movies" element={<FavouriteMovies />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </StyledEngineProvider>

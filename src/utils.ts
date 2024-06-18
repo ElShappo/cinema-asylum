@@ -3,9 +3,13 @@ export function formatYear(year: string | number) {
 }
 
 export function isYear(
-  strOrNum: string | number,
+  year: string | number,
   minYear: number,
   maxYear: number
 ) {
-  return +strOrNum >= minYear && +strOrNum <= maxYear;
+  return +year >= minYear && +year <= maxYear;
+}
+
+export function isRating(rating: string | number) {
+  return +rating >= 0 && +rating <= 10;
 }

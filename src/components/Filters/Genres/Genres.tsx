@@ -10,10 +10,11 @@ import {
   FormControl,
   ListItemText,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { observer } from "mobx-react-lite";
 import genres from "../../../store/genres";
 import { Store } from "react-notifications-component";
+import { useSearchParams } from "react-router-dom";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -27,22 +28,39 @@ const MenuProps = {
 };
 
 const Genres = observer(() => {
-  const [chosenGenres, setChosenGenres] = useState<string[]>([]);
+  const [searchParams, setSearchParams] = useSearchParams();
   const [genresList, setGenresList] = useState<string[]>([]);
+  const [isGenresLoading, setIsGenresLoading] = useState(false);
 
-  const handleChange = (event: SelectChangeEvent<typeof chosenGenres>) => {
-    const {
-      target: { value },
-    } = event;
-    setChosenGenres(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
+  // genres picked from URL are unsafe because a user could have manually typed unexisting genre
+  // that is why apart from chosenGenres we also need to have filteredChosenGenres
+  const filteredChosenGenres = useMemo(() => {
+    const chosenGenres = searchParams.getAll("genre") || [];
+
+    return chosenGenres.filter((chosenGenre) =>
+      genresList.includes(chosenGenre)
     );
+  }, [genresList, searchParams]);
+
+  const handleChange = (
+    event: SelectChangeEvent<typeof filteredChosenGenres>
+  ) => {
+    const {
+      target: { value: genres },
+    } = event;
+
+    const urlSearchParams = new URLSearchParams(searchParams);
+    urlSearchParams.delete("genre");
+    for (const genre of genres) {
+      urlSearchParams.append("genre", genre);
+    }
+    setSearchParams(urlSearchParams);
   };
 
   useEffect(() => {
     async function fetchGenres() {
       if (!genres.get().length) {
+        setIsGenresLoading(true);
         const notificationId = Store.addNotification({
           title: (
             <article className="flex items-center gap-4">
@@ -62,6 +80,7 @@ const Genres = observer(() => {
         });
         await genres.fetchGenres();
         setGenresList(genres.get());
+        setIsGenresLoading(false);
         Store.removeNotification(notificationId);
       }
     }
@@ -74,40 +93,47 @@ const Genres = observer(() => {
         <div className="pb-1 font-bold text-[15px] text-[#f5f5f5]">Жанры:</div>{" "}
       </InputLabel>
       <FormControl sx={{ m: 1, width: 300 }}>
-        <Select
-          multiple
-          displayEmpty
-          value={chosenGenres}
-          onChange={handleChange}
-          input={<OutlinedInput id="select-multiple-chip" />}
-          renderValue={(selected) => {
-            if (selected.length === 0) {
-              return <em>Все жанры</em>;
-            }
-            return (
-              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                {selected.map((value) => (
-                  <Chip key={value} label={value} />
-                ))}
-              </Box>
-            );
-          }}
-          MenuProps={MenuProps}
-          inputProps={{ "aria-label": "Without label" }}
-          labelId="demo-multiple-chip-label"
-          id="demo-multiple-chip"
-        >
-          <MenuItem disabled value="">
-            <Checkbox checked={!chosenGenres.length} />
-            <ListItemText primary={"Все жанры"} />
-          </MenuItem>
-          {genresList.map((genre) => (
-            <MenuItem key={genre} value={genre}>
-              <Checkbox checked={chosenGenres.indexOf(genre) > -1} />
-              <ListItemText primary={genre} />
+        {isGenresLoading ? (
+          <Select>
+            <CircularProgress />
+            Загружаю список жанров...
+          </Select>
+        ) : (
+          <Select
+            multiple
+            displayEmpty
+            value={filteredChosenGenres}
+            onChange={handleChange}
+            input={<OutlinedInput id="select-multiple-chip" />}
+            renderValue={(selected) => {
+              if (selected.length === 0) {
+                return <em>Все жанры</em>;
+              }
+              return (
+                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                  {selected.map((value) => (
+                    <Chip key={value} label={value} />
+                  ))}
+                </Box>
+              );
+            }}
+            MenuProps={MenuProps}
+            inputProps={{ "aria-label": "Without label" }}
+            labelId="demo-multiple-chip-label"
+            id="demo-multiple-chip"
+          >
+            <MenuItem disabled value="">
+              <Checkbox checked={!filteredChosenGenres.length} />
+              <ListItemText primary={"Все жанры"} />
             </MenuItem>
-          ))}
-        </Select>
+            {genresList.map((genre) => (
+              <MenuItem key={genre} value={genre}>
+                <Checkbox checked={filteredChosenGenres.indexOf(genre) > -1} />
+                <ListItemText primary={genre} />
+              </MenuItem>
+            ))}
+          </Select>
+        )}
       </FormControl>
     </article>
   );

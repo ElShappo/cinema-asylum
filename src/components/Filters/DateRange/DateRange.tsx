@@ -7,11 +7,13 @@ import dayjs from "dayjs";
 import { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { formatYear, isYear } from "../../../utils";
+import { observer } from "mobx-react-lite";
+import dateRange from "../../../store/dateRange";
 
 const startYearString = "start_year";
 const endYearString = "end_year";
 
-const DateRange = () => {
+const DateRange = observer(() => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const startYearDayjs = useMemo(() => {
@@ -23,6 +25,8 @@ const DateRange = () => {
     if (!isYear(urlStartYear, minYear, maxYear)) {
       urlStartYear = minYear;
     }
+
+    dateRange.setMinYear(+urlStartYear);
 
     return dayjs(formatYear(urlStartYear));
   }, [searchParams]);
@@ -36,6 +40,8 @@ const DateRange = () => {
     if (!isYear(urlEndYear, minYear, maxYear)) {
       urlEndYear = maxYear;
     }
+
+    dateRange.setMaxYear(+urlEndYear);
 
     return dayjs(formatYear(urlEndYear));
   }, [searchParams]);
@@ -86,6 +92,6 @@ const DateRange = () => {
       </article>
     </LocalizationProvider>
   );
-};
+});
 
 export default DateRange;

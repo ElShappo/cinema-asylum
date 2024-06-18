@@ -1,5 +1,12 @@
+import { CircularProgress } from "@mui/material";
+
 const Loader = () => {
-  return <div>Loader</div>;
+  return (
+    <>
+      <CircularProgress />
+      <span className="text-base">Загружаю список жанров...</span>
+    </>
+  );
 };
 
 export default Loader;

@@ -1,15 +1,35 @@
-import * as React from "react";
 import Slider from "@mui/material/Slider";
+import { observer } from "mobx-react-lite";
+import ratingSlider from "../../../store/ratingSlider";
+import { useSearchParams } from "react-router-dom";
+import { useMemo } from "react";
+import { isRating } from "../../../utils";
 
-function valuetext(value: number) {
-  return `${value}°C`;
-}
+const RatingSlider = observer(() => {
+  const [searchParams, setSearchParams] = useSearchParams(); // used to extract values from URL
 
-const RatingSlider = () => {
-  const [value, setValue] = React.useState<number[]>([0, 10]);
+  const ratingRange = useMemo(() => {
+    let minRating = searchParams.get("min_rating") || 0;
+    let maxRating = searchParams.get("max_rating") || 10;
 
-  const handleChange = (event: Event, newValue: number | number[]) => {
-    setValue(newValue as number[]);
+    if (!isRating(minRating)) {
+      minRating = 0;
+    }
+    if (!isRating(maxRating)) {
+      maxRating = 10;
+    }
+    ratingSlider.setRating([+minRating, +maxRating]);
+
+    return [+minRating, +maxRating];
+  }, [searchParams]);
+
+  const handleChange = (_event: Event, newValue: number | number[]) => {
+    const urlSearchParams = new URLSearchParams(searchParams);
+
+    urlSearchParams.set("min_rating", (newValue as number[])[0].toString());
+    urlSearchParams.set("max_rating", (newValue as number[])[1].toString());
+
+    setSearchParams(urlSearchParams);
   };
 
   return (
@@ -19,13 +39,12 @@ const RatingSlider = () => {
         min={0}
         max={10}
         getAriaLabel={() => "Movie rating"}
-        value={value}
+        value={ratingRange}
         onChange={handleChange}
         valueLabelDisplay="on"
-        getAriaValueText={valuetext}
       />
     </article>
   );
-};
+});
 
 export default RatingSlider;

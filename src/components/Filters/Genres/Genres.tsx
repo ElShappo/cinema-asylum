@@ -78,7 +78,33 @@ const Genres = observer(() => {
             onScreen: true,
           },
         });
-        await genres.fetchGenres();
+        try {
+          // await new Promise((resolve, reject) => {
+          //   setTimeout(() => reject(1), 4000);
+          // });
+          await genres.fetchGenres();
+        } catch (error) {
+          console.error(error);
+
+          Store.addNotification({
+            title: (
+              <article className="flex items-center gap-4">
+                <span className="text-base">
+                  Не удалось загрузить список жанров
+                </span>
+              </article>
+            ),
+            type: "danger",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animate__animated", "animate__fadeIn"],
+            animationOut: ["animate__animated", "animate__fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: true,
+            },
+          });
+        }
         setGenresList(genres.get());
         setIsGenresLoading(false);
         Store.removeNotification(notificationId);
@@ -93,19 +119,14 @@ const Genres = observer(() => {
         <div className="pb-1 font-bold text-[15px] text-[#f5f5f5]">Жанры:</div>{" "}
       </InputLabel>
       <FormControl sx={{ m: 1, width: 300 }}>
-        {isGenresLoading ? (
-          <Select>
-            <CircularProgress />
-            Загружаю список жанров...
-          </Select>
-        ) : (
-          <Select
-            multiple
-            displayEmpty
-            value={filteredChosenGenres}
-            onChange={handleChange}
-            input={<OutlinedInput id="select-multiple-chip" />}
-            renderValue={(selected) => {
+        <Select
+          multiple
+          displayEmpty
+          value={filteredChosenGenres}
+          onChange={handleChange}
+          input={<OutlinedInput id="select-multiple-chip" />}
+          renderValue={(selected) => {
+            if (!isGenresLoading) {
               if (selected.length === 0) {
                 return <em>Все жанры</em>;
               }
@@ -116,24 +137,36 @@ const Genres = observer(() => {
                   ))}
                 </Box>
               );
-            }}
-            MenuProps={MenuProps}
-            inputProps={{ "aria-label": "Without label" }}
-            labelId="demo-multiple-chip-label"
-            id="demo-multiple-chip"
-          >
-            <MenuItem disabled value="">
-              <Checkbox checked={!filteredChosenGenres.length} />
-              <ListItemText primary={"Все жанры"} />
-            </MenuItem>
-            {genresList.map((genre) => (
-              <MenuItem key={genre} value={genre}>
-                <Checkbox checked={filteredChosenGenres.indexOf(genre) > -1} />
-                <ListItemText primary={genre} />
+            } else {
+              return <em>Загружаю список жанров...</em>;
+            }
+          }}
+          MenuProps={MenuProps}
+          inputProps={{ "aria-label": "Without label" }}
+          labelId="demo-multiple-chip-label"
+          id="demo-multiple-chip"
+        >
+          {isGenresLoading ? (
+            <div className="flex justify-center items-center gap-4 p-2">
+              <CircularProgress />
+            </div>
+          ) : (
+            <div>
+              <MenuItem disabled value="">
+                <Checkbox checked={!filteredChosenGenres.length} />
+                <ListItemText primary={"Все жанры"} />
               </MenuItem>
-            ))}
-          </Select>
-        )}
+              {genresList.map((genre) => (
+                <MenuItem key={genre} value={genre}>
+                  <Checkbox
+                    checked={filteredChosenGenres.indexOf(genre) > -1}
+                  />
+                  <ListItemText primary={genre} />
+                </MenuItem>
+              ))}
+            </div>
+          )}
+        </Select>
       </FormControl>
     </article>
   );

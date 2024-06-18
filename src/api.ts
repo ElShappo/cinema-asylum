@@ -22,8 +22,7 @@ import {
 class Api {
   #oldApiPath = "https://api.kinopoisk.dev/v1";
   #apiPath = "https://api.kinopoisk.dev/v1.4";
-  // #apiKey = String(process.env.REACT_APP_API_KEY);
-  #apiKey = "J602SWP-GGBM0HD-P6WQQBT-GXVZN3K";
+  #apiKey = import.meta.env.VITE_API_KEY;
   #selectFieldsMoviesPage = [
     "id",
     "name",

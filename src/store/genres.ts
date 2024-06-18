@@ -1,22 +1,24 @@
 import { makeAutoObservable } from "mobx";
-import { api } from "../api";
-import { Genre } from "../types";
 
 class Genres {
-  #genres: string[];
+  #allGenres: string[];
+  #chosenGenres: string[];
   constructor() {
     makeAutoObservable(this);
-    this.#genres = [];
+    this.#allGenres = [];
+    this.#chosenGenres = [];
   }
-  async fetchGenres() {
-    if (!this.#genres.length) {
-      const res = (await api.get("genres")) as Genre[];
-      this.#genres = res.map((genre) => genre.name);
-      console.log(this.#genres);
-    }
+  setChosenGenres(genres: string[]) {
+    this.#chosenGenres = genres;
   }
-  get() {
-    return this.#genres;
+  getChosenGenres() {
+    return this.#chosenGenres;
+  }
+  setAllGenres(genres: string[]) {
+    this.#allGenres = genres;
+  }
+  getAllGenres() {
+    return this.#allGenres;
   }
 }
 

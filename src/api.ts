@@ -140,12 +140,16 @@ class Api {
   async #getMoviesByFilters({
     limit,
     page,
+    rating,
+    genres,
     years,
     countries,
     ratingsMpaa,
   }: {
     limit: number;
     page: number;
+    rating?: number[];
+    genres?: string[];
     years?: [number, number];
     countries?: string[]; // one can get list of all countries
     ratingsMpaa?: string[];
@@ -161,6 +165,17 @@ class Api {
     if (years && years[0] && years[1]) {
       url.searchParams.append("year", years.join("-"));
     }
+
+    if (rating && rating[0] && rating[1]) {
+      url.searchParams.append("rating.kp", rating.join("-"));
+    }
+
+    if (genres) {
+      for (const genre of genres) {
+        url.searchParams.append("genres.name", String(genre));
+      }
+    }
+
     if (countries) {
       for (const country of countries) {
         url.searchParams.append("countries.name", String(country));
@@ -197,6 +212,8 @@ class Api {
     limit,
     page,
     name,
+    rating,
+    genres,
     years,
     countries,
     ratingsMpaa,
@@ -204,6 +221,8 @@ class Api {
     limit: number;
     page: number;
     name?: string;
+    rating?: number[];
+    genres?: string[];
     years?: [number, number];
     countries?: string[]; // one can get list of all countries
     ratingsMpaa?: string[];
@@ -214,6 +233,8 @@ class Api {
     return this.#getMoviesByFilters({
       limit,
       page,
+      rating,
+      genres,
       years,
       countries,
       ratingsMpaa,

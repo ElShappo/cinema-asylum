@@ -51,6 +51,7 @@ const DateRange = observer(() => {
     const res = [startYearDayjs.year(), endYearDayjs.year()];
     filtersSnapshot.setDateRange(res);
   }, [endYearDayjs, startYearDayjs]);
+  console.log(dateRangeMemoized);
 
   const handleStartYearChange = (newValue: dayjs.Dayjs | null) => {
     const urlSearchParams = new URLSearchParams(searchParams);

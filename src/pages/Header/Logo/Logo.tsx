@@ -13,7 +13,7 @@ const Logo = () => {
         className="text-2xl capitalize text-error px-6 py-3 rounded-xl"
       >
         <div>
-          <h1 className="pl-2 max-sm:hidden">Cinema Setara</h1>
+          <h1 className="pl-2 max-sm:hidden">Cinema Asylum</h1>
           <p className="italic text-sm max-md:hidden">
             Place where cinema resides...
           </p>

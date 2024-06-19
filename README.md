@@ -1,30 +1,56 @@
-# React + TypeScript + Vite
+# Изображения
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![alt text](/public/image-2.png)
 
-Currently, two official plugins are available:
+![alt text](/public/image.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![alt text](/public/image-1.png)
 
-## Expanding the ESLint configuration
+# Запуск проекта
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Live-версию проекта можно посмотреть здесь: https://master--movie-searcher-v1.netlify.app
 
-- Configure the top-level `parserOptions` property like this:
+Локально этот проект запускается стандартным образом через команды Vite:
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+#### `npm run dev` - запуск в dev-режиме
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+#### `npm run build` - сборка проекта
+
+<b>ВАЖНО:</b> для корректной работы программы следует указать API-ключ от сервиса https://api.kinopoisk.dev/documentation#/Фильмы%2C%20сериалы%2C%20и%20т.д./MovieController_findOneV1_4
+
+Чтобы это сделать, в папке с проектом надо создать файл `.env` (если он ранее уже не был создан) и написать
+`VITE_API_KEY=<your api token>`
+
+# Общая информация
+
+Приложение дает возможность пользователю искать кинокартины согласно выставленным критериям поиска. Картины можно искать по различным фильтрам:
+
+<ul>
+    <li>По жанру;</li>
+    <li>По году;</li>
+    <li>По рейтингу.</li>
+</ul>
+
+Пользователь также может получить подробную информацию о картине при клике на ее карточку. Кроме того, пользователь может добавить картину
+в избранное, нажав соответствующую кнопку ("сердечко") на карточке.
+
+Возможные ошибки со стороны API обрабатываются - при неудачном запросе пользователь увидит на сайте соответствующее предупреждение.
+
+# Особенности реализации
+
+<ul>
+    <li>
+        Все фильтры, которые выставляет пользователь, сохраняются в поисковой строке, поэтому страницами с
+        результатами фильтрации можно легко обмениваться;
+    </li>
+    <li>
+      Адаптивный дизайн: вы можете с удобством пользоваться данным
+      веб-сайтом на устройствах с различными размерами экрана.
+    </li>
+</ul>
+
+# Стек технологий
+
+Данное приложение написано на <b>React 18</b> на языке <b>TypeScript</b> с использованием стейт-менеджера
+<b>MobX</b>, фреймворка для стилей <b>TailwindCSS</b>, а также библиотеки <b>Material UI</b>. Пагинация
+реализована с помощью <b>React Router V6</b>.

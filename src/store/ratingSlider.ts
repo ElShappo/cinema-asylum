@@ -1,32 +1,30 @@
 import { makeAutoObservable } from "mobx";
 
 class RatingSlider {
-  minRating: number = 0;
-  maxRating: number = 10;
+  rating: number[] = [];
 
   constructor() {
     makeAutoObservable(this);
   }
 
   setRating(rating: number[]) {
-    this.minRating = rating[0];
-    this.maxRating = rating[1];
+    this.rating = rating;
   }
 
   setMinRating(minRating: number) {
-    this.minRating = minRating;
+    this.rating[0] = minRating;
   }
   setMaxRating(maxRating: number) {
-    this.maxRating = maxRating;
+    this.rating[1] = maxRating;
   }
   getAll() {
-    return [this.minRating, this.maxRating];
+    return this.rating;
   }
   getMinRating() {
-    return this.minRating;
+    return this.rating[0];
   }
   getMaxRating() {
-    return this.maxRating;
+    return this.rating[1];
   }
 }
 const ratingSlider = new RatingSlider();

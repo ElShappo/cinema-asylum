@@ -31,9 +31,9 @@ const MovieCard = ({ movie }: MovieCardProps) => {
         />
         <h3 className="p-4 pb-0 text-xl">{movie.name}</h3>
         <CardActions disableSpacing>
-          <IconButton aria-label="add to favorites">
+          {/* <IconButton aria-label="add to favorites">
             <FavoriteIcon />
-          </IconButton>
+          </IconButton> */}
         </CardActions>
         <CardContent className="overflow-auto">
           <Typography variant="body2" color="text.secondary">

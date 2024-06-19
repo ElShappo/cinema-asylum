@@ -1,7 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { api } from "../../../api";
 import { Movie, MovieUniversalSearchResponse } from "../../../types";
-import { defaultPagesCount, pageLimit } from "../../../constants";
+import {
+  defaultPagesCount,
+  maxYear,
+  minYear,
+  pageLimit,
+} from "../../../constants";
 import ratingSlider from "../../../store/ratingSlider";
 import genres from "../../../store/genres";
 import dateRange from "../../../store/dateRange";
@@ -38,12 +43,34 @@ const Movies = observer(() => {
     async function fetchMovies() {
       setIsMoviesLoading(true);
       try {
+        const years = dateRange.getAll().length
+          ? dateRange.getAll()
+          : [
+              searchParams.get("start_year") || minYear,
+              searchParams.get("end_year") || maxYear,
+            ];
+
+        const rating = ratingSlider.getAll().length
+          ? ratingSlider.getAll()
+          : [
+              searchParams.get("min_rating") || 0,
+              searchParams.get("max_rating") || 10,
+            ];
+
+        const chosenGenres = genres.getChosenGenres().length
+          ? genres.chosenGenres
+          : searchParams.getAll("genre");
+
+        console.log(years);
+        console.log(rating);
+        console.log(chosenGenres);
+
         const response = (await api.getMovies({
           limit: pageLimit,
           page: pageNo,
-          years: dateRange.getAll() as [number, number],
-          rating: ratingSlider.getAll(),
-          genres: genres.getChosenGenres(),
+          years: years.map((year) => +year) as [number, number],
+          rating: rating.map((r) => +r),
+          genres: chosenGenres,
         })) as MovieUniversalSearchResponse;
 
         const movies = response.docs;
@@ -92,8 +119,8 @@ const Movies = observer(() => {
   if (isMoviesLoading) {
     return (
       <section className="flex flex-wrap gap-8 justify-center overflow-y-auto p-8">
-        {new Array(pageLimit).fill(1).map(() => (
-          <CardSkeleton />
+        {new Array(pageLimit).fill(1).map((_value, index) => (
+          <CardSkeleton key={index} />
         ))}
       </section>
     );
@@ -103,7 +130,7 @@ const Movies = observer(() => {
       <main>
         <section className="flex flex-wrap gap-8 justify-center overflow-y-auto p-8">
           {movies!.map((movie) => (
-            <MovieCard movie={movie} />
+            <MovieCard movie={movie} key={movie.id} />
           ))}
         </section>
       </main>

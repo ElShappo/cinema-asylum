@@ -9,7 +9,7 @@ import { Store } from "react-notifications-component";
 import { api } from "../../../api";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { Movie } from "../../../types";
-import MovieGenres from "../../../components/Movie/MovieGenres/MovieGenres";
+import MovieAdditionalInfo from "../../../components/Movie/MovieAdditionalInfo/MovieAdditionalInfo";
 
 const MoviePage = () => {
   const { id } = useParams();
@@ -76,7 +76,11 @@ const MoviePage = () => {
             description={movie?.description}
             isLoading={movieLoading}
           />
-          <MovieGenres genres={movie?.genres} />
+          <MovieAdditionalInfo
+            genres={movie?.genres}
+            year={movie?.year}
+            isLoading={movieLoading}
+          />
           <MovieRatings rating={movie?.rating} isLoading={movieLoading} />
         </div>
       </div>

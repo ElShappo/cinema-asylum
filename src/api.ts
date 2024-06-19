@@ -166,7 +166,7 @@ class Api {
       url.searchParams.append("year", years.join("-"));
     }
 
-    if (rating && rating[0] && rating[1]) {
+    if (rating) {
       url.searchParams.append("rating.kp", rating.join("-"));
     }
 

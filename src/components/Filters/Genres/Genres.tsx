@@ -17,6 +17,7 @@ import { Store } from "react-notifications-component";
 import { useSearchParams } from "react-router-dom";
 import { Genre } from "../../../types";
 import { api } from "../../../api";
+import filtersSnapshot from "../../../store/filtersSnaphot";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -34,9 +35,11 @@ const Genres = observer(() => {
 
   const filteredChosenGenres = useMemo(() => {
     const chosenGenres = searchParams.getAll("genre") || [];
-    return chosenGenres.filter((genre) =>
+    const res = chosenGenres.filter((genre) =>
       genres.getAllGenres().includes(genre)
     );
+    filtersSnapshot.setGenres(res);
+    return res;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams, genres.getAllGenres()]);
 
@@ -54,7 +57,7 @@ const Genres = observer(() => {
     for (const selectedGenre of newSelectedGenres) {
       urlSearchParams.append("genre", selectedGenre);
     }
-    genres.setChosenGenres(newSelectedGenres as string[]);
+    // genres.setChosenGenres(newSelectedGenres as string[]);
     setSearchParams(urlSearchParams);
   };
 

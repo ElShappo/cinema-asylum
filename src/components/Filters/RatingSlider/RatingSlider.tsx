@@ -1,9 +1,9 @@
 import Slider from "@mui/material/Slider";
 import { observer } from "mobx-react-lite";
-import ratingSlider from "../../../store/ratingSlider";
 import { useSearchParams } from "react-router-dom";
 import { useMemo } from "react";
 import { isRating } from "../../../utils";
+import filtersSnapshot from "../../../store/filtersSnaphot";
 
 const RatingSlider = observer(() => {
   const [searchParams, setSearchParams] = useSearchParams(); // used to extract values from URL
@@ -18,7 +18,8 @@ const RatingSlider = observer(() => {
     if (!isRating(maxRating)) {
       maxRating = 10;
     }
-    ratingSlider.setRating([+minRating, +maxRating]);
+    filtersSnapshot.setRatingSlider([+minRating, +maxRating]);
+    // ratingSlider.setRating([+minRating, +maxRating]);
 
     return [+minRating, +maxRating];
   }, [searchParams]);
@@ -36,6 +37,7 @@ const RatingSlider = observer(() => {
     <article className="flex flex-col text-center max-sm:w-full xl:w-1/3 lg:w-2/5 md:w-1/2 sm:w-3/5">
       <h2 className="text-[15px] text-[#e3e3e3]">Рейтинг фильма (диапазон)</h2>
       <Slider
+        step={1}
         min={0}
         max={10}
         getAriaLabel={() => "Movie rating"}

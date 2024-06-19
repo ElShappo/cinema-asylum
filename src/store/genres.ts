@@ -1,24 +1,24 @@
 import { makeAutoObservable } from "mobx";
 
 class Genres {
-  #allGenres: string[];
-  #chosenGenres: string[];
+  allGenres: string[];
+  chosenGenres: string[];
   constructor() {
     makeAutoObservable(this);
-    this.#allGenres = [];
-    this.#chosenGenres = [];
+    this.allGenres = [];
+    this.chosenGenres = [];
   }
   setChosenGenres(genres: string[]) {
-    this.#chosenGenres = genres;
+    this.chosenGenres = genres;
   }
   getChosenGenres() {
-    return this.#chosenGenres;
+    return this.chosenGenres;
   }
   setAllGenres(genres: string[]) {
-    this.#allGenres = genres;
+    this.allGenres = genres;
   }
   getAllGenres() {
-    return this.#allGenres;
+    return this.allGenres;
   }
 }
 

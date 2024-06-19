@@ -5,13 +5,14 @@ import { defaultPagesCount, pageLimit } from "../../../constants";
 import ratingSlider from "../../../store/ratingSlider";
 import genres from "../../../store/genres";
 import dateRange from "../../../store/dateRange";
-import { Pagination, Typography } from "@mui/material";
+import { Pagination } from "@mui/material";
 import { useSearchParams } from "react-router-dom";
-import MovieCard from "../../../components/MovieCard/MovieCard";
 import CardSkeleton from "../../../components/CardSkeleton/CardSkeleton";
 import { Store } from "react-notifications-component";
+import { observer } from "mobx-react-lite";
+import MovieCard from "../../../components/Movie/MovieCard/MovieCard";
 
-const Movies = () => {
+const Movies = observer(() => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [movies, setMovies] = useState<Movie[] | undefined>([]);
@@ -35,10 +36,6 @@ const Movies = () => {
 
   useEffect(() => {
     async function fetchMovies() {
-      const timeoutId = setTimeout(() => {
-        setIsMoviesLoading(true);
-      }, 500);
-
       try {
         const response = (await api.getMovies({
           limit: pageLimit,
@@ -76,12 +73,19 @@ const Movies = () => {
             onScreen: true,
           },
         });
-      } finally {
-        clearTimeout(timeoutId);
       }
     }
     fetchMovies();
-  }, [pageNo]);
+    console.log(ratingSlider.getAll());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    pageNo,
+    genres.chosenGenres,
+    dateRange.minYear,
+    dateRange.maxYear,
+    ratingSlider.minRating,
+    ratingSlider.maxRating,
+  ]);
 
   if (isMoviesLoading) {
     return new Array(pageLimit).fill(1).map(() => <CardSkeleton />);
@@ -94,7 +98,6 @@ const Movies = () => {
               <MovieCard movie={movie} />
             ))}
           </section>
-          <Typography>Page: {pageNo}</Typography>
         </main>
         <footer className="w-full fixed flex justify-center bottom-0 bg-[#242424] bg-opacity-80 py-4">
           <Pagination
@@ -106,6 +109,6 @@ const Movies = () => {
       </>
     );
   }
-};
+});
 
 export default Movies;

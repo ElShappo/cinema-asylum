@@ -2,25 +2,29 @@ import { makeAutoObservable } from "mobx";
 import { maxYear, minYear } from "../constants";
 
 class DateRange {
-  #minYear: number = minYear;
-  #maxYear: number = maxYear;
+  minYear: number = minYear;
+  maxYear: number = maxYear;
   constructor() {
     makeAutoObservable(this);
   }
+  setRange(range: number[]) {
+    this.minYear = range[0];
+    this.maxYear = range[1];
+  }
   setMinYear(minYear: number) {
-    this.#minYear = minYear;
+    this.minYear = minYear;
   }
   setMaxYear(maxYear: number) {
-    this.#maxYear = maxYear;
+    this.maxYear = maxYear;
   }
   getAll() {
-    return [this.#minYear, this.#maxYear];
+    return [this.minYear, this.maxYear];
   }
   getMinYear() {
-    return this.#minYear;
+    return this.minYear;
   }
   getMaxYear() {
-    return this.#maxYear;
+    return this.maxYear;
   }
 }
 

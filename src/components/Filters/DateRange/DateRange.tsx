@@ -8,7 +8,7 @@ import { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { formatYear, isYear } from "../../../utils";
 import { observer } from "mobx-react-lite";
-import dateRange from "../../../store/dateRange";
+import filtersSnapshot from "../../../store/filtersSnaphot";
 
 const startYearString = "start_year";
 const endYearString = "end_year";
@@ -26,7 +26,7 @@ const DateRange = observer(() => {
       urlStartYear = minYear;
     }
 
-    dateRange.setMinYear(+urlStartYear);
+    // dateRange.setMinYear(+urlStartYear);
 
     return dayjs(formatYear(urlStartYear));
   }, [searchParams]);
@@ -41,10 +41,16 @@ const DateRange = observer(() => {
       urlEndYear = maxYear;
     }
 
-    dateRange.setMaxYear(+urlEndYear);
+    // dateRange.setMaxYear(+urlEndYear);
 
     return dayjs(formatYear(urlEndYear));
   }, [searchParams]);
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const dateRangeMemoized = useMemo(() => {
+    const res = [startYearDayjs.year(), endYearDayjs.year()];
+    filtersSnapshot.setDateRange(res);
+  }, [endYearDayjs, startYearDayjs]);
 
   const handleStartYearChange = (newValue: dayjs.Dayjs | null) => {
     const urlSearchParams = new URLSearchParams(searchParams);
@@ -64,7 +70,7 @@ const DateRange = observer(() => {
         <DemoItem label={<strong>Мин. год</strong>}>
           <DatePicker
             minDate={dayjs(formatYear(minYear))}
-            maxDate={dayjs(formatYear(maxYear))}
+            maxDate={endYearDayjs}
             disableFuture
             views={["year"]}
             localeText={{

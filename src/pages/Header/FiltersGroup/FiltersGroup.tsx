@@ -105,6 +105,7 @@ const FiltersGroup = () => {
           size="large"
           startIcon={<HelpOutlineOutlinedIcon sx={{ width: 28, height: 28 }} />}
           color="error"
+          onClick={() => navigate("/faq")}
         >
           FAQ
         </Button>

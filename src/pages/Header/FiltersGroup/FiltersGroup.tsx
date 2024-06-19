@@ -110,6 +110,8 @@ const FiltersGroup = () => {
           FAQ
         </Button>
         <Button
+          target="_blank"
+          href="https://github.com/ElShappo/cinema-serata"
           className="text-xl normal-case"
           size="large"
           startIcon={<GitHubIcon sx={{ width: 28, height: 28 }} />}

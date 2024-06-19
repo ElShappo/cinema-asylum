@@ -36,6 +36,7 @@ const Movies = observer(() => {
 
   useEffect(() => {
     async function fetchMovies() {
+      setIsMoviesLoading(true);
       try {
         const response = (await api.getMovies({
           limit: pageLimit,
@@ -55,6 +56,7 @@ const Movies = observer(() => {
 
         setPagesCount(response.pages);
       } catch (error) {
+        setIsMoviesLoading(false);
         Store.addNotification({
           title: (
             <article className="flex items-center gap-4">
@@ -88,27 +90,32 @@ const Movies = observer(() => {
   ]);
 
   if (isMoviesLoading) {
-    return new Array(pageLimit).fill(1).map(() => <CardSkeleton />);
-  } else {
     return (
-      <>
-        <main>
-          <section className="flex flex-wrap gap-8 justify-center overflow-y-auto p-8">
-            {movies!.map((movie) => (
-              <MovieCard movie={movie} />
-            ))}
-          </section>
-        </main>
-        <footer className="w-full fixed flex justify-center bottom-0 bg-[#242424] bg-opacity-80 py-4">
-          <Pagination
-            count={pagesCount}
-            page={pageNo}
-            onChange={handlePageChange}
-          />
-        </footer>
-      </>
+      <section className="flex flex-wrap gap-8 justify-center overflow-y-auto p-8">
+        {new Array(pageLimit).fill(1).map(() => (
+          <CardSkeleton />
+        ))}
+      </section>
     );
   }
+  return (
+    <>
+      <main>
+        <section className="flex flex-wrap gap-8 justify-center overflow-y-auto p-8">
+          {movies!.map((movie) => (
+            <MovieCard movie={movie} />
+          ))}
+        </section>
+      </main>
+      <footer className="w-full fixed flex justify-center bottom-0 bg-[#242424] bg-opacity-80 py-4">
+        <Pagination
+          count={pagesCount}
+          page={pageNo}
+          onChange={handlePageChange}
+        />
+      </footer>
+    </>
+  );
 });
 
 export default Movies;

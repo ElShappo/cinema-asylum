@@ -5,7 +5,7 @@ import { CardActions } from "@mui/material";
 
 const CardSkeleton = () => {
   return (
-    <Card sx={{ width: 320, m: 2 }}>
+    <Card sx={{ width: 240, m: 2 }}>
       <Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />
 
       <CardContent>

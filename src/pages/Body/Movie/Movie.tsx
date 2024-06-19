@@ -9,7 +9,6 @@ import { Store } from "react-notifications-component";
 import { api } from "../../../api";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { Movie } from "../../../types";
-import "./Movie.css";
 
 const MoviePage = () => {
   const { id } = useParams();

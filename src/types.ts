@@ -22,6 +22,7 @@ export type Movie = {
     russianFilmCritics: number;
     await: number;
   };
+  genres: Array<{ name: string }>;
   backdrop: {
     url: string;
     previewUrl: string;

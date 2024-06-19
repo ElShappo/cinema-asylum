@@ -8,7 +8,7 @@
 
 # Запуск проекта
 
-Live-версию проекта можно посмотреть здесь: https://master--movie-searcher-v1.netlify.app
+Live-версию проекта можно посмотреть здесь: https://master--cinema-asylum.netlify.app/
 
 Локально этот проект запускается стандартным образом через команды Vite:
 

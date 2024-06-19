@@ -188,7 +188,7 @@ class Api {
     }
 
     const href = url.href;
-    console.log(`Total href = ${href}`);
+    // console.log(`Total href = ${href}`);
 
     try {
       const response = await fetch(href, {
@@ -200,7 +200,7 @@ class Api {
         throw new Error();
       }
       const result = await response.json();
-      console.log(result);
+      // console.log(result);
 
       return result;
     } catch (error) {

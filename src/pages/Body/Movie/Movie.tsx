@@ -66,7 +66,11 @@ const MoviePage = () => {
         }}
       >
         <div className="px-6 pt-6">
-          <Button className="flex items-center" onClick={() => navigate(-1)}>
+          <Button
+            color="error"
+            className="flex items-center"
+            onClick={() => navigate(-1)}
+          >
             <KeyboardBackspaceIcon fontSize="large" />
           </Button>
         </div>

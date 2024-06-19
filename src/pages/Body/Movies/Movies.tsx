@@ -16,6 +16,7 @@ import CardSkeleton from "../../../components/CardSkeleton/CardSkeleton";
 import { Store } from "react-notifications-component";
 import { observer } from "mobx-react-lite";
 import MovieCard from "../../../components/Movie/MovieCard/MovieCard";
+import NoResults from "../../../components/NoResults/NoResults";
 
 const Movies = observer(() => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -61,9 +62,9 @@ const Movies = observer(() => {
           ? genres.chosenGenres
           : searchParams.getAll("genre");
 
-        console.log(years);
-        console.log(rating);
-        console.log(chosenGenres);
+        // console.log(years);
+        // console.log(rating);
+        // console.log(chosenGenres);
 
         const response = (await api.getMovies({
           limit: pageLimit,
@@ -75,8 +76,8 @@ const Movies = observer(() => {
 
         const movies = response.docs;
 
-        console.warn("Got movies: ");
-        console.warn(movies);
+        // console.warn("Got movies: ");
+        // console.warn(movies);
 
         setMovies(movies);
         setIsMoviesLoading(false);
@@ -105,16 +106,9 @@ const Movies = observer(() => {
       }
     }
     fetchMovies();
-    console.log(ratingSlider.getAll());
+    // console.log(ratingSlider.getAll());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    pageNo,
-    genres.chosenGenres,
-    dateRange.minYear,
-    dateRange.maxYear,
-    ratingSlider.minRating,
-    ratingSlider.maxRating,
-  ]);
+  }, [pageNo, genres.chosenGenres, dateRange.range, ratingSlider.rating]);
 
   if (isMoviesLoading) {
     return (
@@ -124,25 +118,28 @@ const Movies = observer(() => {
         ))}
       </section>
     );
+  } else if (!movies?.length) {
+    return <NoResults />;
+  } else {
+    return (
+      <>
+        <main>
+          <section className="flex flex-wrap gap-8 justify-center overflow-y-auto p-8">
+            {movies!.map((movie) => (
+              <MovieCard movie={movie} key={movie.id} />
+            ))}
+          </section>
+        </main>
+        <footer className="w-full fixed flex justify-center bottom-0 bg-[#242424] bg-opacity-80 py-4">
+          <Pagination
+            count={pagesCount}
+            page={pageNo}
+            onChange={handlePageChange}
+          />
+        </footer>
+      </>
+    );
   }
-  return (
-    <>
-      <main>
-        <section className="flex flex-wrap gap-8 justify-center overflow-y-auto p-8">
-          {movies!.map((movie) => (
-            <MovieCard movie={movie} key={movie.id} />
-          ))}
-        </section>
-      </main>
-      <footer className="w-full fixed flex justify-center bottom-0 bg-[#242424] bg-opacity-80 py-4">
-        <Pagination
-          count={pagesCount}
-          page={pageNo}
-          onChange={handlePageChange}
-        />
-      </footer>
-    </>
-  );
 });
 
 export default Movies;

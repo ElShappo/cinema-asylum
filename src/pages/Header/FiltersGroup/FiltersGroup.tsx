@@ -73,14 +73,6 @@ const FiltersGroup = () => {
       </Dialog>
       <section className="flex grow flex-wrap gap-4 justify-center">
         <Button
-          className="text-xl normal-case"
-          size="large"
-          startIcon={<SearchOutlinedIcon sx={{ width: 28, height: 28 }} />}
-          color="error"
-        >
-          <div className="py-1">Поиск по названию</div>
-        </Button>
-        <Button
           onClick={() => navigate("/favourite_movies")}
           className="text-xl normal-case"
           size="large"
